@@ -818,7 +818,7 @@ function App() {
       {/* Footer */}
       <footer className="bg-gradient-to-r from-gray-800/90 to-gray-900/90 backdrop-blur-sm text-white py-12">
         <div className="container mx-auto px-4 text-center">
-            <p className="text-lg">&copy; 2025 Uni Cafes. All rights reserved.</p>
+            <p className="text-lg">&copy; 2026 Uni Cafes. All rights reserved.</p>
         </div>
       </footer>
 
