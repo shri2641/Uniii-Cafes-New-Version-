@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Utensils, ShoppingCart, Trash2, Plus, Minus, 
-  MapPin, User, ChevronDown, Edit3, Info, Lock, ShieldCheck, ShoppingBag, Ticket
+  MapPin, ChevronDown, Edit3, Info, Lock, ShieldCheck, ShoppingBag, Ticket
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ThemeToggle from '../components/ThemeToggle';
@@ -379,7 +379,7 @@ const Cart: React.FC = () => {
                   className="w-full bg-gradient-to-b from-[#2E6BFF] to-[#1E54D4] dark:from-[#3574F0] dark:to-[#1C51C4] hover:brightness-110 active:brightness-90 text-white font-bold py-4 rounded-xl shadow-[0_4px_14px_0_rgba(46,107,255,0.39)] transition-all flex items-center justify-center gap-2 mb-4 relative overflow-hidden group"
                 >
                   <span className="relative z-10 text-base">Place Order Now</span>
-                  <div className="relative z-10 flex items-center gap-1 opaciy-90 font-medium text-[11px] ml-1 bg-black/10 px-2 py-0.5 rounded-full">
+                  <div className="relative z-10 flex items-center gap-1 opacity-90 font-medium text-[11px] ml-1 bg-black/10 px-2 py-0.5 rounded-full">
                     <Lock className="w-3 h-3" /> Secure Checkout
                   </div>
                   {/* Sheen effect */}
