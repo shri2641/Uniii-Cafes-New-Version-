@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Utensils, Package } from 'lucide-react';
+import ThemeToggle from '../components/ThemeToggle';
 
 const MyOrders: React.FC = () => {
   // This would typically come from an API or state management
@@ -18,12 +19,15 @@ const MyOrders: React.FC = () => {
                 Uni Cafes
               </h1>
             </Link>
-            <Link
-              to="/"
-              className="text-green-600 hover:text-green-700 font-semibold"
-            >
-              Back to Home
-            </Link>
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+              <Link
+                to="/"
+                className="text-green-600 hover:text-green-700 font-semibold"
+              >
+                Back to Home
+              </Link>
+            </div>
           </div>
         </div>
       </header>

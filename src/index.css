@@ -6,6 +6,13 @@
   .perspective {
     perspective: 1000px;
   }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 :root {
@@ -48,60 +55,6 @@ body {
   pointer-events: none;
 }
 
-/* Add floating 3D elements */
-.floating-element {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background: linear-gradient(135deg, theme('colors.green.100/0.3'), theme('colors.teal.100/0.3'));
-  border-radius: 20px;
-  backdrop-filter: blur(5px);
-  pointer-events: none;
-  animation: float 15s ease-in-out infinite;
-}
-
-.floating-element:nth-child(1) {
-  top: 10%;
-  left: 5%;
-  transform: rotate(45deg);
-  animation-delay: 0s;
-}
-
-.floating-element:nth-child(2) {
-  top: 60%;
-  right: 10%;
-  transform: rotate(30deg);
-  animation-delay: -5s;
-}
-
-.floating-element:nth-child(3) {
-  bottom: 20%;
-  left: 20%;
-  transform: rotate(60deg);
-  animation-delay: -10s;
-}
-
-.floating-element:nth-child(4) {
-  top: 30%;
-  right: 20%;
-  transform: rotate(15deg);
-  animation-delay: -7s;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg) scale(1);
-  }
-  25% {
-    transform: translateY(-20px) rotate(5deg) scale(1.1);
-  }
-  50% {
-    transform: translateY(0) rotate(0deg) scale(1);
-  }
-  75% {
-    transform: translateY(20px) rotate(-5deg) scale(0.9);
-  }
-}
 
 @keyframes gradient {
   0% {

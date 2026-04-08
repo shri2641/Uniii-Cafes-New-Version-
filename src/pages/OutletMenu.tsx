@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Utensils, ArrowLeft, UtensilsCrossed, ShoppingCart, Pizza, User, ChevronDown } from 'lucide-react';
+import { 
+  Utensils, 
+  ArrowLeft, 
+  UtensilsCrossed, 
+  ShoppingCart, 
+  Pizza, 
+  User, 
+  ChevronDown,
+  Star,
+  Clock,
+  MapPin
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import CartButton from '../components/CartButton';
 import { useCart } from '../context/CartContext';
+import ThemeToggle from '../components/ThemeToggle';
+import MenuItemComponent from '../components/MenuItem';
+import GradientButton from '../components/GradientButton';
 
 interface MenuItem {
   name: string;
@@ -1600,7 +1615,7 @@ const outlets: Outlet[] = [
 
 const OutletMenu: React.FC = () => {
   const { outletId } = useParams<{ outletId: string }>();
-  const { totalItems, totalAmount } = useCart();
+  const { totalItems, totalPrice } = useCart();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const outlet = outlets.find(o => o.id === outletId);
@@ -1614,16 +1629,16 @@ const OutletMenu: React.FC = () => {
 
   if (!outlet) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-        <UtensilsCrossed className="w-16 h-16 text-gray-400 mb-4" />
-        <h1 className="text-2xl font-bold text-gray-700 mb-2">Outlet Not Found</h1>
-        <p className="text-gray-600 mb-4">The outlet you're looking for doesn't exist.</p>
+      <div className="min-h-screen bg-[#FDFCFB] flex flex-col items-center justify-center p-4">
+        <div className="p-6 bg-blue-50 rounded-3xl mb-6">
+          <UtensilsCrossed className="w-16 h-16 text-blue-600" />
+        </div>
+        <h1 className="text-3xl font-black text-blue-950 mb-2">Outlet Not Found</h1>
+        <p className="text-gray-500 mb-8 font-light">The outlet you're looking for doesn't exist.</p>
         <Link
           to="/"
-          className="flex items-center space-x-2 text-green-600 hover:text-green-700"
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back to Home</span>
+          <GradientButton label="Back to Home" variant="blue" className="px-10" />
         </Link>
       </div>
     );
@@ -1646,124 +1661,128 @@ const OutletMenu: React.FC = () => {
   const categorizedMenu = getMenuItemsByCategory(outlet.menu, outlet.id);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="container mx-auto px-4 py-6">
+    <div className="min-h-screen bg-[#FDFCFB] dark:bg-neutral-950 transition-colors duration-500">
+      {/* Professional Header */}
+      <header className="sticky top-0 z-50 bg-[#FDFCFB]/80 dark:bg-neutral-950/80 backdrop-blur-xl border-b border-orange-100/50 dark:border-neutral-800/50 shadow-sm transition-all duration-300">
+        <div className="container mx-auto px-4 py-4 lg:py-6">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-2 text-green-600 hover:text-green-700">
-              <ArrowLeft className="w-5 h-5" />
-              <span>Back to Home</span>
+            <Link to="/" className="flex items-center space-x-3 group">
+              <div className="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform">
+                <Utensils className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-blue-950 dark:text-white">
+                  Uni Cafes
+              </h1>
             </Link>
+            
             <div className="flex items-center space-x-6">
-              {/* User Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-green-600 focus:outline-none"
+              <ThemeToggle />
+              <Link
+                to="/cart"
+                className="group flex items-center space-x-3 bg-blue-50 dark:bg-blue-900/20 px-6 py-2.5 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all relative border border-blue-100 dark:border-blue-800/50 shadow-sm"
+              >
+                <motion.div
+                  animate={totalItems > 0 ? { scale: [1, 1.2, 1] } : {}}
+                  transition={{ duration: 0.3 }}
                 >
-                  <User className="w-6 h-6" />
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                
-                {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg py-2 z-50">
-                    <div className="px-4 py-2 border-b border-gray-100">
-                      <h3 className="text-lg font-semibold text-gray-800">Recent Orders</h3>
-                    </div>
-                    {recentOrders.map(order => (
-                      <Link
-                        key={order.id}
-                        to={`/orders/${order.id}`}
-                        className="block px-4 py-3 hover:bg-gray-50"
+                  <ShoppingCart className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                </motion.div>
+                <div className="flex flex-col items-start leading-none">
+                  <span className="text-[10px] font-bold text-blue-600/60 dark:text-blue-400/60 uppercase tracking-tighter">My Cart</span>
+                  <span className="text-sm font-black text-blue-950 dark:text-white">₹{totalPrice}</span>
+                </div>
+                <AnimatePresence>
+                  {totalItems > 0 && (
+                    <motion.span 
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      key={totalItems}
+                      className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-[#FDFCFB] dark:border-neutral-950 shadow-lg shadow-orange-200/50 dark:shadow-none"
+                    >
+                      <motion.span
+                        initial={{ y: 10 }}
+                        animate={{ y: 0 }}
+                        key={totalItems}
                       >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <p className="font-medium text-gray-800">{order.outlet}</p>
-                            <p className="text-sm text-gray-500">{new Date(order.date).toLocaleDateString()}</p>
-                          </div>
-                          <span className="text-green-600 font-medium">₹{order.amount}</span>
-                        </div>
-                      </Link>
-                    ))}
-                    <div className="px-4 py-2 border-t border-gray-100">
-                      <Link
-                        to="/orders"
-                        className="block text-center text-green-600 hover:text-green-700 font-medium"
-                      >
-                        View All Orders
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Shopping Cart */}
-              <div className="flex items-center space-x-2">
-                <ShoppingCart className="w-6 h-6 text-green-600" />
-                <span className="text-lg font-semibold">₹{totalAmount.toFixed(2)}</span>
-                <span className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
-                  {totalItems} items
-                </span>
-              </div>
+                        {totalItems}
+                      </motion.span>
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+              
+              <Link
+                to="/"
+                className="hidden md:flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold transition-all"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span>Back</span>
+              </Link>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Outlet Info */}
-      <div className="relative h-64 overflow-hidden">
+      {/* Outlet Hero */}
+      <div className="relative h-[400px] overflow-hidden">
         <img
           src={outlet.image}
           alt={outlet.name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-          <div className="container mx-auto px-4 py-6 text-white">
-            <h1 className="text-4xl font-bold mb-2">{outlet.name}</h1>
-            <p className="text-lg opacity-90">{outlet.description}</p>
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-950/40 to-transparent flex items-end pb-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl space-y-6">
+              <div className="inline-block px-4 py-1.5 bg-blue-600 text-white rounded-full text-xs font-bold uppercase tracking-widest">
+                Campus Favorite
+              </div>
+              <h1 className="text-5xl lg:text-7xl font-black text-white leading-tight tracking-tight">{outlet.name}</h1>
+              <p className="text-xl text-blue-100/80 font-light leading-relaxed max-w-2xl">{outlet.description}</p>
+              
+              <div className="flex flex-wrap gap-6 pt-4">
+                <div className="flex items-center gap-2 text-white">
+                  <Star className="w-5 h-5 text-orange-400 fill-orange-400" />
+                  <span className="font-bold text-lg">4.8</span>
+                  <span className="text-blue-200 text-sm">(500+ Ratings)</span>
+                </div>
+                <div className="flex items-center gap-2 text-white">
+                  <Clock className="w-5 h-5 text-blue-400" />
+                  <span className="font-bold text-lg">15-20 min</span>
+                </div>
+                <div className="flex items-center gap-2 text-white">
+                  <MapPin className="w-5 h-5 text-blue-400" />
+                  <span className="font-bold text-lg">Main Food Court</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Menu */}
-      <div className="container mx-auto px-4 py-12">
-        {Object.entries(categorizedMenu).map(([category, items]) => (
-          <div key={category} className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">{category}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Menu Categories */}
+      <div className="container mx-auto px-4 py-20">
+        {Object.entries(categorizedMenu).map(([category, items], catIndex) => (
+          <motion.div 
+            key={category} 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: catIndex * 0.1 }}
+            className="mb-20"
+          >
+            <div className="flex items-center gap-4 mb-12">
+              <h2 className="text-3xl font-black text-blue-950 dark:text-white tracking-tight">{category}</h2>
+              <div className="h-px flex-1 bg-blue-100 dark:bg-neutral-800" />
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{items.length} Items</span>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-24 pt-12">
               {items.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  <div className="h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
-                    <Pizza className="w-24 h-24 text-green-600" strokeWidth={1.5} />
-                  </div>
-                  <div className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-xl font-semibold text-gray-800">{item.name}</h3>
-                      <div className="flex items-center">
-                        <span className="text-yellow-400">★</span>
-                        <span className="text-gray-600 ml-1">{item.rating}</span>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 mb-4">{item.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-green-600">₹{item.price}</span>
-                      <CartButton
-                        itemId={item.name}
-                        outletId={outlet.id}
-                        name={item.name}
-                        price={item.price}
-                        image="/icons/food-icon.png"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <MenuItemComponent key={index} {...item} />
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
