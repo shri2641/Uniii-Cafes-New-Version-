@@ -46,12 +46,11 @@ const AboutUs: React.FC = () => {
             </p>
             <p className="text-gray-600 text-lg mb-6 leading-relaxed">
               Over a disappointing sip of coffee, Nitya muttered, "Why can't we just order ahead?" 
-              Shrishti sighed, "And maybe even know what's actually good before we waste our money?" 
-              Anurag raised an eyebrow—then grinned. "Why not?"
+              Shrishti raised an eyebrow—then grinned. "Why not?"
             </p>
             <p className="text-gray-600 text-lg leading-relaxed">
-              That week, Anurag put his usual assignments on hold and turned his hostel room into a 
-              brainstorming hub. He mapped out campus cafes, interviewed 50+ students about their 
+              That week, Shrishti put her usual assignments on hold and turned her hostel room into a 
+              brainstorming hub. She mapped out campus cafes, interviewed 50+ students about their 
               biggest food frustrations ("Prices change every day!", "I never know what's actually good!"), 
               and coded a bare-bones app during late-night sessions fueled by instant noodles.
             </p>
@@ -76,7 +75,7 @@ const AboutUs: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-blue-900">Anurag (Founder)</h4>
+                  <h4 className="text-lg font-semibold text-blue-900">Shrishti (Founder)</h4>
                   <p className="text-gray-600">Tech wizard who can debug code faster than you can say "burger".</p>
                 </div>
               </div>
